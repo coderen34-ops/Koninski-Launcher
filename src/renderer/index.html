@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'self'">
+<title>Koninski Launcher</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+    <header>
+      <div class="logo">K</div>
+      <div>
+        <h1 id="serverName">Koninski SMP</h1>
+        <p class="sub">Modlar otomatik indirilir ve güncellenir</p>
+      </div>
+    </header>
+
+    <label for="nick">Oyuncu adı</label>
+    <input id="nick" maxlength="16" placeholder="Nick'ini yaz" autocomplete="off" spellcheck="false">
+
+    <label for="ram">Bellek (RAM): <span id="ramLabel"></span></label>
+    <input id="ram" type="range" min="2048" max="12288" step="512">
+
+    <label class="check"><input type="checkbox" id="closeOnStart"> Oyun açılınca launcher'ı kapat (RAM tasarrufu)</label>
+
+    <button id="play">OYNA</button>
+
+    <div class="bar" id="barWrap" hidden><div id="bar"></div></div>
+    <p id="status" class="status">Hazır.</p>
+
+    <footer>
+      <span id="ver" class="ver"></span>
+      <button id="folder" class="link">Oyun klasörünü aç</button>
+    </footer>
+  </main>
+  <script src="renderer.js"></script>
+</body>
+</html>

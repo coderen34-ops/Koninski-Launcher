@@ -1,0 +1,62 @@
+{
+  "name": "koninski-launcher",
+  "productName": "Koninski Launcher",
+  "version": "1.1.0",
+  "description": "Koninski SMP özel launcher",
+  "main": "bootstrap.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node test/core.test.js && node test/updater.test.js",
+    "pack:win": "electron-packager . KoninskiLauncher --platform=win32 --arch=x64 --out=dist --overwrite --ignore=^/dist --ignore=^/test --ignore=^/server",
+    "setup:win": "electron-builder --win nsis --x64",
+    "build:update": "node tools/build-update.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "adm-zip": "^0.6.1",
+    "minecraft-launcher-core": "^3.18.2",
+    "prismarine-nbt": "^2.8.0"
+  },
+  "devDependencies": {
+    "@electron/packager": "^20.3.0",
+    "electron": "^45.2.1",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "tr.com.koninski.launcher",
+    "productName": "Koninski Launcher",
+    "directories": {
+      "output": "dist-setup"
+    },
+    "files": [
+      "**/*",
+      "!dist/**",
+      "!dist-setup/**",
+      "!test/**",
+      "!server/**",
+      "!README.md"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Koninski Launcher",
+      "artifactName": "Koninski-Launcher-Setup-${version}.${ext}"
+    },
+    "asar": true
+  },
+  "author": "Koninski"
+}

@@ -1,0 +1,46 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  color: #e8eaf0;
+  background: radial-gradient(1200px 600px at 20% 0%, #26402f 0%, #14161c 60%);
+  display: flex; align-items: center; justify-content: center;
+}
+.card {
+  width: 440px; padding: 32px;
+  background: rgba(24, 27, 35, .92);
+  border: 1px solid #2c3140; border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.45);
+}
+header { display: flex; gap: 14px; align-items: center; margin-bottom: 24px; }
+.logo {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: #4caf6a; color: #0e1a12; font-weight: 800; font-size: 26px;
+  display: flex; align-items: center; justify-content: center;
+}
+h1 { margin: 0; font-size: 22px; }
+.sub { margin: 2px 0 0; color: #8b93a7; font-size: 13px; }
+label { display: block; margin: 16px 0 6px; font-size: 13px; color: #aab2c5; }
+input[type=text], #nick, #key {
+  width: 100%; padding: 12px 14px; font-size: 15px;
+  color: #fff; background: #0f1117; border: 1px solid #2c3140; border-radius: 10px; outline: none;
+}
+#nick:focus, #key:focus { border-color: #4caf6a; }
+input[type=range] { width: 100%; accent-color: #4caf6a; }
+#play {
+  width: 100%; margin-top: 22px; padding: 14px;
+  font-size: 17px; font-weight: 700; letter-spacing: 1px;
+  color: #0e1a12; background: #4caf6a; border: 0; border-radius: 10px; cursor: pointer;
+}
+#play:hover:not(:disabled) { background: #5fc97f; }
+#play:disabled { opacity: .55; cursor: default; }
+.bar { height: 6px; background: #0f1117; border-radius: 3px; margin-top: 18px; overflow: hidden; }
+#bar { height: 100%; width: 0; background: #4caf6a; transition: width .15s; }
+.status { margin: 10px 0 0; min-height: 20px; font-size: 13px; color: #aab2c5; }
+.status.err { color: #ff7b7b; }
+footer { margin-top: 14px; display: flex; justify-content: space-between; align-items: center; }
+.ver { font-size: 12px; color: #5d6679; }
+.link { background: none; border: 0; color: #7f8aa6; font-size: 12px; cursor: pointer; text-decoration: underline; }
+
+.check { display: flex; gap: 8px; align-items: center; margin-top: 16px; color: #aab2c5; font-size: 13px; cursor: pointer; }
+.check input { accent-color: #4caf6a; }

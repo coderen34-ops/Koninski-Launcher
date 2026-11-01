@@ -1,0 +1,58 @@
+{
+  "serverName": "Koninski SMP",
+  "serverAddress": "koninski.com.tr",
+  "manifestUrl": "",
+  "minecraft": "26.2",
+  "fabricLoader": "latest",
+  "defaultRamMb": 4096,
+  "javaMajor": 25,
+  "servers": [
+    {
+      "name": "Koninski SMP",
+      "ip": "koninski.com.tr"
+    }
+  ],
+  "mods": [
+    {
+      "slug": "fabric-api",
+      "bundled": "fabric-api-0.158.0+26.2.jar"
+    },
+    {
+      "slug": "simple-voice-chat",
+      "bundled": "voicechat-fabric-2.6.22+26.2.jar"
+    },
+    {
+      "slug": "sound-physics-remastered",
+      "bundled": "sound-physics-remastered-fabric-1.5.2+26.2.jar"
+    },
+    {
+      "slug": "sodium"
+    },
+    {
+      "slug": "iris"
+    },
+    {
+      "slug": "ferrite-core"
+    },
+    {
+      "slug": "entityculling"
+    },
+    {
+      "slug": "immediatelyfast"
+    },
+    {
+      "name": "koninski-guard",
+      "bundledOnly": "koninski-guard-mod-1.2.0.jar"
+    }
+  ],
+  "jvmArgs": [
+    "-XX:+UseG1GC",
+    "-XX:MaxGCPauseMillis=50",
+    "-XX:+ParallelRefProcEnabled",
+    "-XX:+DisableExplicitGC",
+    "-XX:+UnlockExperimentalVMOptions",
+    "-XX:G1NewSizePercent=30",
+    "-XX:G1ReservePercent=20"
+  ],
+  "updateBaseUrl": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/update"
+}
