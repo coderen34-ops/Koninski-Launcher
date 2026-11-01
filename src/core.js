@@ -229,6 +229,22 @@ async function syncModrinth(gameDir, mods, mcVersion, bundledDir, log) {
   fs.writeFileSync(statePath, JSON.stringify(state, null, 2));
 }
 
+
+// ---------- Sürüm profilleri ----------
+// config.versions içinden seçilen sürüm için: Minecraft, Java, oyun klasörü adı ve mod listesi.
+// 26.2 eski kurulumlarla uyumlu kalsın diye "game" klasörünü kullanır; diğerleri "game-<mc>".
+function resolveVersion(config, id) {
+  const list = config.versions || [{ mc: config.minecraft, java: config.javaMajor }];
+  const v = list.find(x => x.mc === id) || list.find(x => x.mc === (config.defaultVersion || config.minecraft)) || list[0];
+  const mods = (config.mods || []).map(m => {
+    const o = { ...m };
+    if (o.bundledOnly) o.bundledOnly = o.bundledOnly.replace('{gv}', config.guardVersion || '').replace('{mc}', v.mc);
+    if (o.bundled && o.bundledMc && o.bundledMc !== v.mc) delete o.bundled; // yedek jar sadece kendi sürümüne uygun
+    return o;
+  });
+  return { minecraft: v.mc, javaMajor: v.java, gameDirName: v.mc === '26.2' ? 'game' : 'game-' + v.mc, mods };
+}
+
 // ---------- Çoklu oyuncu listesine sunucuları ekle (servers.dat) ----------
 // Var olan sunucular korunur; aynı IP zaten varsa tekrar eklenmez.
 function ensureServers(gameDir, servers) {
@@ -263,4 +279,5 @@ function newIdentity() {
   return { pub: publicKey.toString('base64'), priv: privateKey.toString('base64') };
 }
 
-module.exports = { newIdentity, offlineUuid, validNick, sha1File, safeJoin, getJson, download, syncFiles, ensureJava, ensureFabric, syncModrinth, ensureServers };
+module.exports = {
+  resolveVersion, newIdentity, offlineUuid, validNick, sha1File, safeJoin, getJson, download, syncFiles, ensureJava, ensureFabric, syncModrinth, ensureServers };

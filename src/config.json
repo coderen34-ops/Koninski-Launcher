@@ -15,15 +15,18 @@
   "mods": [
     {
       "slug": "fabric-api",
-      "bundled": "fabric-api-0.158.0+26.2.jar"
+      "bundled": "fabric-api-0.158.0+26.2.jar",
+      "bundledMc": "26.2"
     },
     {
       "slug": "simple-voice-chat",
-      "bundled": "voicechat-fabric-2.6.22+26.2.jar"
+      "bundled": "voicechat-fabric-2.6.22+26.2.jar",
+      "bundledMc": "26.2"
     },
     {
       "slug": "sound-physics-remastered",
-      "bundled": "sound-physics-remastered-fabric-1.5.2+26.2.jar"
+      "bundled": "sound-physics-remastered-fabric-1.5.2+26.2.jar",
+      "bundledMc": "26.2"
     },
     {
       "slug": "sodium"
@@ -42,7 +45,7 @@
     },
     {
       "name": "koninski-guard",
-      "bundledOnly": "koninski-guard-mod-1.2.0.jar"
+      "bundledOnly": "koninski-guard-mod-{gv}-mc{mc}.jar"
     }
   ],
   "jvmArgs": [
@@ -54,5 +57,49 @@
     "-XX:G1NewSizePercent=30",
     "-XX:G1ReservePercent=20"
   ],
-  "updateBaseUrl": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/update"
+  "updateBaseUrl": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/update",
+  "guardVersion": "1.3.0",
+  "defaultVersion": "26.2",
+  "versions": [
+    {
+      "mc": "26.3",
+      "java": 25,
+      "label": "26.3"
+    },
+    {
+      "mc": "26.2",
+      "java": 25,
+      "label": "26.2 (sunucu sürümü)"
+    },
+    {
+      "mc": "1.21.11",
+      "java": 21,
+      "label": "1.21.11"
+    },
+    {
+      "mc": "1.21.8",
+      "java": 21,
+      "label": "1.21.8"
+    },
+    {
+      "mc": "1.21.4",
+      "java": 21,
+      "label": "1.21.4"
+    },
+    {
+      "mc": "1.21.1",
+      "java": 21,
+      "label": "1.21.1"
+    },
+    {
+      "mc": "1.20.4",
+      "java": 17,
+      "label": "1.20.4"
+    },
+    {
+      "mc": "1.20.1",
+      "java": 17,
+      "label": "1.20.1"
+    }
+  ]
 }

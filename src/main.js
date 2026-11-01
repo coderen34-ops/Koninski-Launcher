@@ -29,7 +29,7 @@ const log = (msg, extra) => send('status', { msg, ...(extra || {}) });
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 880, height: 560, resizable: false, autoHideMenuBar: true,
+    width: 880, height: 640, resizable: false, autoHideMenuBar: true,
     backgroundColor: '#14161c', title: config.serverName + ' Launcher',
     webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, nodeIntegration: false }
   });
@@ -52,22 +52,24 @@ ipcMain.handle('init', () => {
     ramMb: s.ramMb || config.defaultRamMb,
     closeOnStart: s.closeOnStart !== false,
     version: APP_VERSION,
-    gameDir: path.join(rootDir, 'game')
+    versions: (config.versions || []).map(v => ({ mc: v.mc, label: v.label || v.mc })),
+    selected: core.resolveVersion(config, s.mcVersion).minecraft
   };
 });
 
-ipcMain.handle('openFolder', () => shell.openPath(path.join(rootDir, 'game')));
+ipcMain.handle('openFolder', () => shell.openPath(path.join(rootDir, core.resolveVersion(config, loadSettings().mcVersion).gameDirName)));
 
-ipcMain.handle('play', async (_e, { nick, ramMb, closeOnStart }) => {
+ipcMain.handle('play', async (_e, { nick, ramMb, closeOnStart, mcVersion }) => {
   if (updating) return { ok: false, error: 'Launcher güncelleniyor, birkaç saniye bekle.' };
   if (launching) return { ok: false, error: 'Zaten başlatılıyor.' };
   if (!core.validNick(nick)) return { ok: false, error: 'Nick 3-16 karakter olmalı (harf, rakam, _).' };
   launching = true;
   const ram = Math.max(1024, Math.min(parseInt(ramMb, 10) || config.defaultRamMb, 16384));
-  saveSettings({ ...loadSettings(), nick, ramMb: ram, closeOnStart: !!closeOnStart });
+  const ver = core.resolveVersion(config, mcVersion);
+  saveSettings({ ...loadSettings(), nick, ramMb: ram, closeOnStart: !!closeOnStart, mcVersion: ver.minecraft });
 
   try {
-    const gameDir = path.join(rootDir, 'game');
+    const gameDir = path.join(rootDir, ver.gameDirName);
     fs.mkdirSync(gameDir, { recursive: true });
 
     // Guard kimliği: ilk çalıştırmada otomatik üretilir, sonra hep aynısı kullanılır.
@@ -81,7 +83,7 @@ ipcMain.handle('play', async (_e, { nick, ramMb, closeOnStart }) => {
       try { log('Sunucu bilgileri alınıyor...'); manifest = await core.getJson(config.manifestUrl); }
       catch (_) { log('Manifest alınamadı, varsayılan ayarlar kullanılıyor.'); }
     }
-    manifest = { ...config, ...manifest };
+    manifest = { ...config, ...manifest, minecraft: ver.minecraft, javaMajor: ver.javaMajor, mods: ver.mods };
     if (manifest.files && manifest.files.length) {
       log('Dosyalar kontrol ediliyor...');
       await core.syncFiles(gameDir, manifest, log);

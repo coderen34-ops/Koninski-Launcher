@@ -44,3 +44,8 @@ footer { margin-top: 14px; display: flex; justify-content: space-between; align-
 
 .check { display: flex; gap: 8px; align-items: center; margin-top: 16px; color: #aab2c5; font-size: 13px; cursor: pointer; }
 .check input { accent-color: #4caf6a; }
+select {
+  width: 100%; padding: 12px 14px; font-size: 15px;
+  color: #fff; background: #0f1117; border: 1px solid #2c3140; border-radius: 10px; outline: none;
+}
+select:focus { border-color: #4caf6a; }

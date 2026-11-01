@@ -1,5 +1,6 @@
 const $ = id => document.getElementById(id);
 const nick = $('nick'), ram = $('ram'), play = $('play'), statusEl = $('status');
+const mcSel = $('mcVersion');
 const barWrap = $('barWrap'), bar = $('bar');
 
 function setStatus(msg, err) {
@@ -12,6 +13,8 @@ ram.addEventListener('input', syncRamLabel);
 window.api.init().then(s => {
   $('serverName').textContent = s.serverName;
   $('ver').textContent = 'v' + s.version;
+  for (const v of s.versions) { const o = document.createElement('option'); o.value = v.mc; o.textContent = v.label; mcSel.appendChild(o); }
+  mcSel.value = s.selected;
   nick.value = s.nick;
   ram.value = s.ramMb;
   $('closeOnStart').checked = s.closeOnStart;
@@ -39,7 +42,7 @@ play.addEventListener('click', async () => {
   barWrap.hidden = true;
   bar.style.width = '0';
   setStatus('Başlatılıyor...');
-  const r = await window.api.play({ nick: nick.value.trim(), ramMb: ram.value, closeOnStart: $('closeOnStart').checked });
+  const r = await window.api.play({ nick: nick.value.trim(), ramMb: ram.value, closeOnStart: $('closeOnStart').checked, mcVersion: mcSel.value });
   if (!r.ok) {
     setStatus(r.error, true);
     play.disabled = false;

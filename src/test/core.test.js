@@ -87,7 +87,8 @@ const core = require('../core');
   const https = require('https');
   const realGet = https.get;
   https.get = (...a) => { const r = new (require('events'))(); process.nextTick(() => r.emit('error', new Error('ağ yok'))); return r; };
-  await core.syncModrinth(dir, cfg.mods, cfg.minecraft, bundled, () => {});
+  const rv = core.resolveVersion(cfg, '26.2');
+  await core.syncModrinth(dir, rv.mods, rv.minecraft, bundled, () => {});
   https.get = realGet;
   const jars = fs.readdirSync(path.join(dir, 'mods')).sort();
   assert.strictEqual(jars.length, 4); // 3 yedek mod + koninski-guard
@@ -107,3 +108,19 @@ const core = require('../core');
   assert.deepStrictEqual(fs.readdirSync(modsDir).sort(), ['baska-mod.jar', 'koninski-guard-2.0.0.jar']);
   console.log('bundledOnly testi geçti.');
 })().catch(e => { console.error(e); process.exit(1); });
+
+// ---- sürüm profili testi ----
+(() => {
+  const cfg = require('../config.json');
+  const a = core.resolveVersion(cfg, '26.2');
+  assert.strictEqual(a.gameDirName, 'game');
+  assert.strictEqual(a.javaMajor, 25);
+  assert.ok(a.mods.some(m => m.bundled), '26.2: yedek jar korunmalı');
+  const b = core.resolveVersion(cfg, '1.20.1');
+  assert.strictEqual(b.gameDirName, 'game-1.20.1');
+  assert.strictEqual(b.javaMajor, 17);
+  assert.ok(!b.mods.some(m => m.bundled), '1.20.1: 26.2 yedek jarları gelmemeli');
+  assert.strictEqual(b.mods.find(m => m.name === 'koninski-guard').bundledOnly, `koninski-guard-mod-${cfg.guardVersion}-mc1.20.1.jar`);
+  assert.strictEqual(core.resolveVersion(cfg, 'yok').minecraft, '26.2'); // bilinmeyen -> varsayılan
+  console.log('Sürüm profili testi geçti.');
+})();
