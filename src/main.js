@@ -133,6 +133,7 @@ ipcMain.handle('play', async (_e, { nick, ramMb, closeOnStart, mcVersion }) => {
 
 async function runUpdateCheck() {
   updating = true;
+  let failMsg = '';
   log('Güncellemeler kontrol ediliyor...');
   try {
     const r = await updater.checkAndApply({
@@ -148,9 +149,10 @@ async function runUpdateCheck() {
     }
   } catch (err) {
     console.log('[update]', err.message); // çevrimdışı olabilir; mevcut sürümle devam
+    failMsg = err.message;
   }
   updating = false;
-  log('Hazır.');
+  log(failMsg ? 'Hazır. (güncelleme kontrolü yapılamadı: ' + failMsg + ')' : 'Hazır.');
 }
 
 app.whenReady().then(() => {

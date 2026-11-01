@@ -1,7 +1,10 @@
 'use strict';
 // Kendini güncelleme: imzalı app-<sürüm>.asar paketini indirir, doğrular, bootstrap'in yükleyeceği yere koyar.
 const crypto = require('crypto');
-const fs = require('fs');
+// Electron'da yama uygulanmış 'fs' bir .asar dosyasını KLASÖR sayar (boyut 0, okuma hatası).
+// Güncelleme paketine düz dosya olarak erişmek için original-fs şart; düz Node'da (testler) 'fs'.
+let fs;
+try { fs = require('original-fs'); } catch (_) { fs = require('fs'); }
 const path = require('path');
 const core = require('./core');
 
