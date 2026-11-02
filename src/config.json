@@ -58,7 +58,7 @@
     "-XX:G1ReservePercent=20"
   ],
   "updateBaseUrl": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/update",
-  "guardVersion": "1.3.0",
+  "guardVersion": "1.4.0",
   "defaultVersion": "26.2",
   "versions": [
     {
