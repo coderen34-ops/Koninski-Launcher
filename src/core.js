@@ -238,11 +238,36 @@ function resolveVersion(config, id) {
   const v = list.find(x => x.mc === id) || list.find(x => x.mc === (config.defaultVersion || config.minecraft)) || list[0];
   const mods = (config.mods || []).map(m => {
     const o = { ...m };
-    if (o.bundledOnly) o.bundledOnly = o.bundledOnly.replace('{gv}', config.guardVersion || '').replace('{mc}', v.mc);
+    if (o.bundledOnly) o.bundledOnly = o.bundledOnly.replace('{gv}', config.guardVersion || '').replace('{cv}', config.clientVersion || '').replace('{mc}', v.mc);
     if (o.bundled && o.bundledMc && o.bundledMc !== v.mc) delete o.bundled; // yedek jar sadece kendi sürümüne uygun
     return o;
   });
   return { minecraft: v.mc, javaMajor: v.java, gameDirName: v.mc === '26.2' ? 'game' : 'game-' + v.mc, mods };
+}
+
+// ---------- Kaynak paketi (resource pack) kurulumu ----------
+// Paketi <oyun>/resourcepacks içine kopyalar ve options.txt'te etkinleştirir. Oyuncunun kendi paketleri korunur.
+function installPack(gameDir, packZip, name = 'koninski-pack.zip') {
+  if (!fs.existsSync(packZip)) return false;
+  const rp = path.join(gameDir, 'resourcepacks');
+  mkdirp(rp);
+  const dest = path.join(rp, name);
+  const data = fs.readFileSync(packZip);
+  if (!fs.existsSync(dest) || !fs.readFileSync(dest).equals(data)) fs.writeFileSync(dest, data);
+  const opt = path.join(gameDir, 'options.txt');
+  const entry = 'file/' + name;
+  let lines = fs.existsSync(opt) ? fs.readFileSync(opt, 'utf8').split(/\r?\n/) : [];
+  while (lines.length && lines[lines.length - 1] === '') lines.pop();
+  const idx = lines.findIndex(l => l.startsWith('resourcePacks:'));
+  if (idx >= 0) {
+    let arr = null;
+    try { arr = JSON.parse(lines[idx].slice('resourcePacks:'.length)); } catch (_) {}
+    if (Array.isArray(arr) && !arr.includes(entry)) { arr.push(entry); lines[idx] = 'resourcePacks:' + JSON.stringify(arr); }
+  } else {
+    lines.push('resourcePacks:' + JSON.stringify(['vanilla', entry]));
+  }
+  fs.writeFileSync(opt, lines.join('\n') + '\n');
+  return true;
 }
 
 // ---------- Çoklu oyuncu listesine sunucuları ekle (servers.dat) ----------
@@ -280,4 +305,4 @@ function newIdentity() {
 }
 
 module.exports = {
-  resolveVersion, newIdentity, offlineUuid, validNick, sha1File, safeJoin, getJson, download, syncFiles, ensureJava, ensureFabric, syncModrinth, ensureServers };
+  resolveVersion, installPack, newIdentity, offlineUuid, validNick, sha1File, safeJoin, getJson, download, syncFiles, ensureJava, ensureFabric, syncModrinth, ensureServers };

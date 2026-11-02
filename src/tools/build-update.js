@@ -24,8 +24,11 @@ const { signedMessage } = require('../updater');
   // Üçüncü taraf yedek jar'lar (Fabric API, Voice Chat...) herkese açık pakete konmaz; yalnızca Guard modu.
   fs.mkdirSync(path.join(stage, 'bundled-mods'));
   for (const f of fs.readdirSync(path.join(root, 'bundled-mods'))) {
-    if (/^koninski-guard-/.test(f)) fs.copyFileSync(path.join(root, 'bundled-mods', f), path.join(stage, 'bundled-mods', f));
+    if (/^koninski-(guard|client)-/.test(f)) fs.copyFileSync(path.join(root, 'bundled-mods', f), path.join(stage, 'bundled-mods', f));
   }
+
+  // Kaynak paketi (yemek ve eşya görselleri): launcher oyuncuya otomatik kurar.
+  fs.cpSync(path.join(root, 'bundled-pack'), path.join(stage, 'bundled-pack'), { recursive: true });
 
   const stagePkg = { ...pkg };
   if (process.argv[4]) stagePkg.version = process.argv[4]; // sınama için sürüm geçersiz kılma

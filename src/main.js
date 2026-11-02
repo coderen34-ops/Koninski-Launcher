@@ -91,6 +91,7 @@ ipcMain.handle('play', async (_e, { nick, ramMb, closeOnStart, mcVersion }) => {
 
     log('Modlar güncelleniyor (Modrinth)...');
     await core.syncModrinth(gameDir, manifest.mods || [], manifest.minecraft, path.join(__dirname, 'bundled-mods'), log);
+    try { core.installPack(gameDir, path.join(__dirname, 'bundled-pack', 'koninski-pack.zip')); } catch (e) { console.log('[pack]', e.message); }
     core.ensureServers(gameDir, manifest.servers || config.servers || []);
 
     const javaPath = await core.ensureJava(rootDir, manifest.javaMajor, log);

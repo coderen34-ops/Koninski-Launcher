@@ -91,7 +91,7 @@ const core = require('../core');
   await core.syncModrinth(dir, rv.mods, rv.minecraft, bundled, () => {});
   https.get = realGet;
   const jars = fs.readdirSync(path.join(dir, 'mods')).sort();
-  assert.strictEqual(jars.length, 4); // 3 yedek mod + koninski-guard
+  assert.strictEqual(jars.length, 5); // 3 yedek mod + koninski-guard + koninski-client
   assert(jars.some(j => j.startsWith('fabric-api')));
   console.log('Modrinth yedek testi geçti.');
 })().catch(e => { console.error(e); process.exit(1); });
@@ -121,6 +121,29 @@ const core = require('../core');
   assert.strictEqual(b.javaMajor, 17);
   assert.ok(!b.mods.some(m => m.bundled), '1.20.1: 26.2 yedek jarları gelmemeli');
   assert.strictEqual(b.mods.find(m => m.name === 'koninski-guard').bundledOnly, `koninski-guard-mod-${cfg.guardVersion}-mc1.20.1.jar`);
+  assert.strictEqual(b.mods.find(m => m.name === 'koninski-client').bundledOnly, `koninski-client-mod-${cfg.clientVersion}-mc1.20.1.jar`);
   assert.strictEqual(core.resolveVersion(cfg, 'yok').minecraft, '26.2'); // bilinmeyen -> varsayılan
   console.log('Sürüm profili testi geçti.');
+})();
+
+// ---- resource pack kurulum testi ----
+(() => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kl-pack-'));
+  const zip = path.join(dir, 'p.zip'); fs.writeFileSync(zip, 'ZIPDATA');
+  // 1) options.txt yok: oluşturulur
+  const g1 = path.join(dir, 'g1'); fs.mkdirSync(g1);
+  assert.ok(core.installPack(g1, zip));
+  assert.strictEqual(fs.readFileSync(path.join(g1, 'resourcepacks', 'koninski-pack.zip'), 'utf8'), 'ZIPDATA');
+  assert.ok(fs.readFileSync(path.join(g1, 'options.txt'), 'utf8').includes('"file/koninski-pack.zip"'));
+  // 2) oyuncunun kendi paketi ve diğer ayarlar korunur; ikinci çağrı çift eklemez
+  const g2 = path.join(dir, 'g2'); fs.mkdirSync(g2);
+  fs.writeFileSync(path.join(g2, 'options.txt'), 'version:3955\nresourcePacks:["vanilla","file/ozel.zip"]\nlang:tr_tr\n');
+  core.installPack(g2, zip); core.installPack(g2, zip);
+  const o = fs.readFileSync(path.join(g2, 'options.txt'), 'utf8');
+  assert.ok(o.includes('resourcePacks:["vanilla","file/ozel.zip","file/koninski-pack.zip"]'));
+  assert.strictEqual(o.split('koninski-pack.zip').length - 1, 1);
+  assert.ok(o.includes('lang:tr_tr') && o.includes('version:3955'));
+  // 3) paket dosyası yoksa sessizce atlar
+  assert.strictEqual(core.installPack(g2, path.join(dir, 'yok.zip')), false);
+  console.log('Resource pack kurulum testi geçti.');
 })();

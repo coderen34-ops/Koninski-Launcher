@@ -46,6 +46,10 @@
     {
       "name": "koninski-guard",
       "bundledOnly": "koninski-guard-mod-{gv}-mc{mc}.jar"
+    },
+    {
+      "name": "koninski-client",
+      "bundledOnly": "koninski-client-mod-{cv}-mc{mc}.jar"
     }
   ],
   "jvmArgs": [
@@ -58,7 +62,7 @@
     "-XX:G1ReservePercent=20"
   ],
   "updateBaseUrl": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/update",
-  "guardVersion": "1.4.0",
+  "guardVersion": "1.4.1",
   "defaultVersion": "26.2",
   "versions": [
     {
@@ -101,5 +105,6 @@
       "java": 17,
       "label": "1.20.1"
     }
-  ]
+  ],
+  "clientVersion": "1.1.0"
 }
