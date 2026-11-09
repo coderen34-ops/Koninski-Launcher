@@ -309,12 +309,7 @@
           "url": "https://cdn.modrinth.com/data/OsZiaDHq/versions/ChKayKur/CreativeCore_FORGE_v2.12.40_mc1.20.1.jar",
           "sha1": "f8b65310e0183630dd00c1ade12f9b6ecd243287"
         },
-        {
-          "name": "First-person Model",
-          "path": "mods/firstperson-forge-2.7.3-mc1.20.1.jar",
-          "url": "https://cdn.modrinth.com/data/H5XMjpHi/versions/kxFDUOmS/firstperson-forge-2.7.3-mc1.20.1.jar",
-          "sha1": "229a85332b026a027e960919a263742f1eafbbc2"
-        },
+        
         {
           "name": "Not Enough Animations",
           "path": "mods/notenoughanimations-forge-1.12.7-mc1.20.1.jar",
@@ -323,9 +318,9 @@
         },
         {
           "name": "Demir ve Siper (çekirdek mod)",
-          "path": "mods/koninski_dvs-0.3.0.jar",
-          "url": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/dvs/mods/koninski_dvs-0.3.0.jar",
-          "sha1": "93f15d1f59212b3dbe242608d58a5fc5eff994a5"
+          "path": "mods/koninski_dvs-0.3.1.jar",
+          "url": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/dvs/mods/koninski_dvs-0.3.1.jar",
+          "sha1": "36f8b6d623a164aece5c5c7958615bb8823de1f2"
         },
         {
           "name": "Koninski Guard (Forge)",
