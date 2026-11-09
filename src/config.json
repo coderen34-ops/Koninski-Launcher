@@ -106,5 +106,50 @@
       "label": "1.20.1"
     }
   ],
-  "clientVersion": "1.1.1"
+  "clientVersion": "1.1.1",
+  "defaultProfile": "smp",
+  "profiles": [
+    {
+      "id": "smp",
+      "name": "Koninski SMP",
+      "subtitle": "Modlar otomatik indirilir ve güncellenir",
+      "loader": "fabric"
+    },
+    {
+      "id": "dvs",
+      "name": "Demir ve Siper",
+      "subtitle": "HOI4 x Arma milsim · Forge 1.20.1",
+      "loader": "forge",
+      "minecraft": "1.20.1",
+      "java": 17,
+      "forgeVersion": "recommended",
+      "gameDirName": "game-dvs",
+      "defaultRamMb": 8192,
+      "serverAddress": "demirvesiper.exaroton.me",
+      "manifestUrl": "",
+      "mods": [
+        {
+          "slug": "create"
+        },
+        {
+          "slug": "tough-as-nails"
+        },
+        {
+          "slug": "simple-voice-chat"
+        },
+        {
+          "slug": "timeless-and-classics-zero"
+        },
+        {
+          "slug": "superb-warfare"
+        },
+        {
+          "slug": "immersive-vehicles"
+        },
+        {
+          "slug": "create-tfmg"
+        }
+      ]
+    }
+  ]
 }

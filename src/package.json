@@ -6,7 +6,7 @@
   "main": "bootstrap.js",
   "scripts": {
     "start": "electron .",
-    "test": "node test/core.test.js && node test/updater.test.js",
+    "test": "node test/core.test.js && node test/updater.test.js && node test/profile.test.js",
     "pack:win": "electron-packager . KoninskiLauncher --platform=win32 --arch=x64 --out=dist --overwrite --ignore=^/dist --ignore=^/test --ignore=^/server",
     "setup:win": "electron-builder --win nsis --x64",
     "build:update": "node tools/build-update.js"

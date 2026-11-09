@@ -46,27 +46,45 @@ function createWindow() {
 
 ipcMain.handle('init', () => {
   const s = loadSettings();
+  const prof = core.resolveProfile(config, s.profile, s.mcVersion);
+  const ramByProfile = s.ramByProfile || {};
   return {
     serverName: config.serverName,
     nick: s.nick || '',
-    ramMb: s.ramMb || config.defaultRamMb,
+    ramMb: ramByProfile[prof.id] || (prof.id === 'smp' && s.ramMb) || prof.defaultRamMb,
     closeOnStart: s.closeOnStart !== false,
     version: APP_VERSION,
     versions: (config.versions || []).map(v => ({ mc: v.mc, label: v.label || v.mc })),
-    selected: core.resolveVersion(config, s.mcVersion).minecraft
+    selected: core.resolveVersion(config, s.mcVersion).minecraft,
+    profiles: core.listProfiles(config).map(p => {
+      const r = core.resolveProfile(config, p.id, s.mcVersion);
+      return { ...p, minecraft: r.minecraft, versionLocked: r.versionLocked, hasServer: !!r.serverAddress,
+        ramMb: ramByProfile[p.id] || (p.id === 'smp' && s.ramMb) || r.defaultRamMb };
+    }),
+    profile: prof.id
   };
 });
 
-ipcMain.handle('openFolder', () => shell.openPath(path.join(rootDir, core.resolveVersion(config, loadSettings().mcVersion).gameDirName)));
+ipcMain.handle('openFolder', (_e, sel) => {
+  const s = loadSettings();
+  const p = core.resolveProfile(config, (sel && sel.profile) || s.profile, (sel && sel.mcVersion) || s.mcVersion);
+  const dir = path.join(rootDir, p.gameDirName);
+  fs.mkdirSync(dir, { recursive: true });
+  return shell.openPath(dir);
+});
 
-ipcMain.handle('play', async (_e, { nick, ramMb, closeOnStart, mcVersion }) => {
+ipcMain.handle('play', async (_e, { nick, ramMb, closeOnStart, mcVersion, profile }) => {
   if (updating) return { ok: false, error: 'Launcher güncelleniyor, birkaç saniye bekle.' };
   if (launching) return { ok: false, error: 'Zaten başlatılıyor.' };
   if (!core.validNick(nick)) return { ok: false, error: 'Nick 3-16 karakter olmalı (harf, rakam, _).' };
   launching = true;
-  const ram = Math.max(1024, Math.min(parseInt(ramMb, 10) || config.defaultRamMb, 16384));
-  const ver = core.resolveVersion(config, mcVersion);
-  saveSettings({ ...loadSettings(), nick, ramMb: ram, closeOnStart: !!closeOnStart, mcVersion: ver.minecraft });
+  const prev = loadSettings();
+  // Profil Fabric (SMP) değilse sürüm sabittir; SMP için kayıtlı sürüm seçimi korunur.
+  const ver = core.resolveProfile(config, profile, mcVersion || prev.mcVersion);
+  const ram = Math.max(1024, Math.min(parseInt(ramMb, 10) || ver.defaultRamMb, 16384));
+  const ramByProfile = { ...(prev.ramByProfile || {}), [ver.id]: ram };
+  saveSettings({ ...prev, nick, ramMb: ver.id === 'smp' ? ram : prev.ramMb, ramByProfile, closeOnStart: !!closeOnStart,
+    mcVersion: ver.versionLocked ? prev.mcVersion : ver.minecraft, profile: ver.id });
 
   try {
     const gameDir = path.join(rootDir, ver.gameDirName);
@@ -79,23 +97,31 @@ ipcMain.handle('play', async (_e, { nick, ramMb, closeOnStart, mcVersion }) => {
 
     // Uzak manifest isteğe bağlı: yoksa/erişilemezse config.json varsayılanları kullanılır.
     let manifest = {};
-    if (config.manifestUrl) {
-      try { log('Sunucu bilgileri alınıyor...'); manifest = await core.getJson(config.manifestUrl); }
+    if (ver.manifestUrl) {
+      try { log('Sunucu bilgileri alınıyor...'); manifest = await core.getJson(ver.manifestUrl); }
       catch (_) { log('Manifest alınamadı, varsayılan ayarlar kullanılıyor.'); }
     }
-    manifest = { ...config, ...manifest, minecraft: ver.minecraft, javaMajor: ver.javaMajor, mods: ver.mods };
+    const base = ver.loader === 'fabric'
+      ? { ...config }
+      : { serverAddress: ver.serverAddress, servers: ver.servers, jvmArgs: config.jvmArgs, quickPlay: ver.quickPlay };
+    manifest = { ...base, ...manifest, minecraft: ver.minecraft, javaMajor: ver.javaMajor, mods: ver.mods };
     if (manifest.files && manifest.files.length) {
       log('Dosyalar kontrol ediliyor...');
       await core.syncFiles(gameDir, manifest, log);
     }
 
     log('Modlar güncelleniyor (Modrinth)...');
-    await core.syncModrinth(gameDir, manifest.mods || [], manifest.minecraft, path.join(__dirname, 'bundled-mods'), log);
-    try { core.installPack(gameDir, path.join(__dirname, 'bundled-pack', 'koninski-pack.zip')); } catch (e) { console.log('[pack]', e.message); }
-    core.ensureServers(gameDir, manifest.servers || config.servers || []);
+    await core.syncModrinth(gameDir, manifest.mods || [], manifest.minecraft, path.join(__dirname, 'bundled-mods'), log, ver.loader);
+    if (ver.installPack) {
+      try { core.installPack(gameDir, path.join(__dirname, 'bundled-pack', 'koninski-pack.zip')); } catch (e) { console.log('[pack]', e.message); }
+    }
+    const servers = manifest.servers || (ver.loader === 'fabric' ? config.servers : []) || [];
+    if (servers.length) core.ensureServers(gameDir, servers);
 
     const javaPath = await core.ensureJava(rootDir, manifest.javaMajor, log);
-    const custom = await core.ensureFabric(rootDir, manifest.minecraft, manifest.fabricLoader, log);
+    let custom = null, forgeInstaller = null;
+    if (ver.loader === 'forge') forgeInstaller = await core.ensureForge(rootDir, manifest.minecraft, manifest.forgeVersion || ver.forgeVersion, log);
+    else custom = await core.ensureFabric(rootDir, manifest.minecraft, manifest.fabricLoader || ver.fabricLoader, log);
 
     const uuid = core.offlineUuid(nick);
     const launcher = new Client();
@@ -106,13 +132,15 @@ ipcMain.handle('play', async (_e, { nick, ramMb, closeOnStart, mcVersion }) => {
       },
       root: rootDir,
       javaPath,
-      version: { number: manifest.minecraft, type: 'release', custom },
+      version: custom ? { number: manifest.minecraft, type: 'release', custom } : { number: manifest.minecraft, type: 'release' },
       memory: { max: `${ram}M`, min: '1024M' },
       overrides: { gameDirectory: gameDir },
       customArgs: [...(manifest.jvmArgs || []), `-Dkoninski.pub=${identity.pub}`, `-Dkoninski.priv=${identity.priv}`, `-Dkoninski.launcher=${APP_VERSION}`]
     };
-    if (manifest.quickPlay === true) {
-      opts.quickPlay = { type: 'multiplayer', identifier: manifest.serverAddress || config.serverAddress };
+    if (forgeInstaller) opts.forge = forgeInstaller; // MCLC, Forge'u bu installer ile kendisi kurar
+    const addr = manifest.serverAddress || (ver.loader === 'fabric' ? config.serverAddress : '');
+    if (manifest.quickPlay === true && addr) {
+      opts.quickPlay = { type: 'multiplayer', identifier: addr };
     }
 
     launcher.on('progress', p => send('status', { msg: `Oyun dosyaları: ${p.type}`, progress: p.total ? p.task / p.total : undefined, file: p.type }));

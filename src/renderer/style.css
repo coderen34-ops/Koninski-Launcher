@@ -49,3 +49,30 @@ select {
   color: #fff; background: #0f1117; border: 1px solid #2c3140; border-radius: 10px; outline: none;
 }
 select:focus { border-color: #4caf6a; }
+
+/* ---------- Profil seçimi ---------- */
+.profiles { display: flex; gap: 6px; margin: -8px 0 22px; padding: 4px; background: #0f1117; border: 1px solid #2c3140; border-radius: 12px; }
+.profiles[hidden] { display: none; }
+.tab {
+  flex: 1; padding: 9px 10px; font-size: 13px; font-weight: 600;
+  color: #8b93a7; background: none; border: 0; border-radius: 8px; cursor: pointer;
+}
+.tab:hover { color: #e8eaf0; }
+.tab.active { color: #0e1a12; background: var(--accent); }
+.info { margin: 16px 0 0; padding: 10px 12px; font-size: 13px; color: #aab2c5; background: #0f1117; border: 1px solid #2c3140; border-radius: 10px; }
+
+/* Demir ve Siper: haki/pas tonları */
+body { --accent: #4caf6a; transition: background .3s; }
+body[data-profile="dvs"] {
+  --accent: #b39b5b;
+  background: radial-gradient(1200px 600px at 20% 0%, #3d3622 0%, #15140f 60%);
+}
+body[data-profile="dvs"] .logo { background: var(--accent); color: #1a160b; border-radius: 4px; }
+body[data-profile="dvs"] #play { background: var(--accent); color: #1a160b; }
+body[data-profile="dvs"] #play:hover:not(:disabled) { background: #c9b06a; }
+body[data-profile="dvs"] #bar { background: var(--accent); }
+body[data-profile="dvs"] input[type=range], body[data-profile="dvs"] .check input { accent-color: var(--accent); }
+body[data-profile="dvs"] #nick:focus, body[data-profile="dvs"] select:focus { border-color: var(--accent); }
+/* Profil sekmesi eklendi: sabit 640px pencereye sığsın diye üst boşluk biraz azaltıldı */
+.card { padding-top: 26px; }
+body { overflow-y: auto; }

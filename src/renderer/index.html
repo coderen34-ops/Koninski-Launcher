@@ -8,19 +8,24 @@
 </head>
 <body>
   <main class="card">
+    <nav class="profiles" id="profiles" role="tablist" aria-label="Sunucu profili"></nav>
+
     <header>
-      <div class="logo">K</div>
+      <div class="logo" id="logo">K</div>
       <div>
         <h1 id="serverName">Koninski SMP</h1>
-        <p class="sub">Modlar otomatik indirilir ve güncellenir</p>
+        <p class="sub" id="subtitle">Modlar otomatik indirilir ve güncellenir</p>
       </div>
     </header>
 
     <label for="nick">Oyuncu adı</label>
     <input id="nick" maxlength="16" placeholder="Nick'ini yaz" autocomplete="off" spellcheck="false">
 
-    <label for="mcVersion">Minecraft sürümü</label>
-    <select id="mcVersion"></select>
+    <div id="versionRow">
+      <label for="mcVersion">Minecraft sürümü</label>
+      <select id="mcVersion"></select>
+    </div>
+    <p class="info" id="profileInfo" hidden></p>
 
     <label for="ram">Bellek (RAM): <span id="ramLabel"></span></label>
     <input id="ram" type="range" min="2048" max="12288" step="512">

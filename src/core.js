@@ -166,10 +166,50 @@ async function ensureFabric(rootDir, mcVersion, loaderVersion, log) {
   return id;
 }
 
+
+// ---------- Forge ----------
+// Forge kurulum dosyasını (installer) indirir; MCLC bunu "forge" seçeneğiyle kendisi kurar.
+// forgeVersion: sabit sürüm ("47.4.0") ya da "recommended"/"latest" (Forge'un promotions listesinden).
+const FORGE_PROMOS = 'https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json';
+const FORGE_MAVEN = 'https://maven.minecraftforge.net/net/minecraftforge/forge';
+
+function pickForgeVersion(promos, mcVersion, wanted) {
+  const p = (promos && promos.promos) || {};
+  if (wanted && wanted !== 'recommended' && wanted !== 'latest') return wanted;
+  const order = wanted === 'latest' ? ['latest', 'recommended'] : ['recommended', 'latest'];
+  for (const k of order) if (p[`${mcVersion}-${k}`]) return p[`${mcVersion}-${k}`];
+  return null;
+}
+
+async function ensureForge(rootDir, mcVersion, forgeVersion, log, fetchJson = getJson, dl = download) {
+  // MCLC kendi Forge dosyalarını <root>/forge altında tuttuğu için installer'lar ayrı klasörde.
+  const dir = path.join(rootDir, 'installers', 'forge');
+  mkdirp(dir);
+  let ver = null;
+  try {
+    ver = pickForgeVersion(await fetchJson(FORGE_PROMOS), mcVersion, forgeVersion);
+  } catch (_) {
+    ver = pickForgeVersion(null, mcVersion, forgeVersion);
+  }
+  if (!ver) {
+    // Ağ yoksa daha önce indirilmiş bir installer varsa onu kullan.
+    const old = fs.readdirSync(dir).filter(f => f.startsWith(`forge-${mcVersion}-`) && f.endsWith('-installer.jar')).sort();
+    if (old.length) return path.join(dir, old[old.length - 1]);
+    throw new Error(`Forge, ${mcVersion} için bulunamadı (internet bağlantısını kontrol et).`);
+  }
+  const full = `${mcVersion}-${ver}`;
+  const file = path.join(dir, `forge-${full}-installer.jar`);
+  if (!fs.existsSync(file)) {
+    log(`Forge ${ver} indiriliyor...`);
+    await dl(`${FORGE_MAVEN}/${full}/forge-${full}-installer.jar`, file, (g, t) => log(null, { progress: g / t, file: 'Forge' }));
+  }
+  return file;
+}
+
 // ---------- Modrinth: her mod için en güncel sürümü bul ve indir ----------
 // mods[]: { slug, bundled }  -> bundled: ağ yoksa kullanılacak, launcher ile gelen jar adı
 // Modrinth erişilemezse paketle gelen jar kullanılır; hiçbir şey bozulmaz.
-async function syncModrinth(gameDir, mods, mcVersion, bundledDir, log) {
+async function syncModrinth(gameDir, mods, mcVersion, bundledDir, log, loader = 'fabric') {
   const modsDir = path.join(gameDir, 'mods');
   mkdirp(modsDir);
   const statePath = path.join(gameDir, '.koninski-modrinth.json');
@@ -192,7 +232,7 @@ async function syncModrinth(gameDir, mods, mcVersion, bundledDir, log) {
     let latest = null;
     try {
       const q = `https://api.modrinth.com/v2/project/${m.slug}/version`
-        + `?loaders=${encodeURIComponent('["fabric"]')}&game_versions=${encodeURIComponent(JSON.stringify([mcVersion]))}`;
+        + `?loaders=${encodeURIComponent(JSON.stringify([loader]))}&game_versions=${encodeURIComponent(JSON.stringify([mcVersion]))}`;
       const list = await getJson(q);
       if (Array.isArray(list) && list.length) {
         list.sort((a, b) => new Date(b.date_published) - new Date(a.date_published));
@@ -243,6 +283,59 @@ function resolveVersion(config, id) {
     return o;
   });
   return { minecraft: v.mc, javaMajor: v.java, gameDirName: v.mc === '26.2' ? 'game' : 'game-' + v.mc, mods };
+}
+
+
+// ---------- Sunucu profilleri ----------
+// config.profiles: launcher'da seçilebilen sunucular (ör. Koninski SMP, Demir ve Siper).
+// Fabric profili (SMP) eski sürüm seçici + config.mods ile çalışır; diğer profiller kendi alanlarını taşır.
+// Profil tanımı yoksa tek bir SMP profili varsayılır (eski config'lerle uyumluluk).
+function listProfiles(config) {
+  const list = Array.isArray(config.profiles) && config.profiles.length
+    ? config.profiles
+    : [{ id: 'smp', name: config.serverName, loader: 'fabric' }];
+  return list.map(p => ({ id: p.id, name: p.name || p.id, loader: p.loader || 'fabric', subtitle: p.subtitle || '' }));
+}
+
+function resolveProfile(config, profileId, mcVersion) {
+  const all = Array.isArray(config.profiles) && config.profiles.length ? config.profiles : [{ id: 'smp', loader: 'fabric' }];
+  const p = all.find(x => x.id === profileId) || all.find(x => x.id === config.defaultProfile) || all[0];
+  const loader = p.loader || 'fabric';
+  const name = p.name || config.serverName;
+  if (loader === 'fabric' && !p.minecraft) {
+    // SMP: mevcut sürüm sistemi aynen korunur.
+    const v = resolveVersion(config, mcVersion);
+    const serverAddress = p.serverAddress !== undefined ? p.serverAddress : config.serverAddress;
+    return {
+      id: p.id, name, loader, ...v,
+      fabricLoader: config.fabricLoader,
+      serverAddress,
+      servers: p.servers || config.servers || [],
+      manifestUrl: p.manifestUrl !== undefined ? p.manifestUrl : config.manifestUrl,
+      quickPlay: p.quickPlay,
+      versionLocked: false,
+      installPack: p.installPack !== false,
+      defaultRamMb: p.defaultRamMb || config.defaultRamMb
+    };
+  }
+  const serverAddress = p.serverAddress || '';
+  return {
+    id: p.id, name, loader,
+    minecraft: p.minecraft,
+    javaMajor: p.java || p.javaMajor || 17,
+    gameDirName: p.gameDirName || 'game-' + p.id,
+    mods: (p.mods || []).map(m => ({ ...m })),
+    forgeVersion: p.forgeVersion || 'recommended',
+    fabricLoader: p.fabricLoader || 'latest',
+    serverAddress,
+    // Adres boşsa (henüz sunucu yok) çoklu oyuncu listesine bir şey eklenmez, otomatik bağlanılmaz.
+    servers: serverAddress ? [{ name, ip: serverAddress }] : [],
+    manifestUrl: p.manifestUrl || '',
+    quickPlay: !!serverAddress && p.quickPlay !== false,
+    versionLocked: true,
+    installPack: p.installPack === true,
+    defaultRamMb: p.defaultRamMb || config.defaultRamMb
+  };
 }
 
 // ---------- Kaynak paketi (resource pack) kurulumu ----------
@@ -305,4 +398,4 @@ function newIdentity() {
 }
 
 module.exports = {
-  resolveVersion, installPack, newIdentity, offlineUuid, validNick, sha1File, safeJoin, getJson, download, syncFiles, ensureJava, ensureFabric, syncModrinth, ensureServers };
+  listProfiles, resolveProfile, pickForgeVersion, ensureForge, resolveVersion, installPack, newIdentity, offlineUuid, validNick, sha1File, safeJoin, getJson, download, syncFiles, ensureJava, ensureFabric, syncModrinth, ensureServers };
