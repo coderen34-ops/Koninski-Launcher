@@ -32,6 +32,16 @@ const cfg = require('../config.json');
   assert.strictEqual(dvs.gameDirName, 'game-dvs');
   assert.strictEqual(dvs.versionLocked, true);
   assert.ok(!dvs.mods.some(m => m.bundledOnly || m.slug === 'fabric-api'));
+  assert.strictEqual(dvs.forgeVersion, '47.4.29'); // sunucuyla aynı Forge
+  // Sunucudaki modlar sabit dosya listesi olarak gelir: hepsi mods/ altında, SHA1'li, Modrinth CDN'den
+  assert.ok(dvs.files.length >= 18);
+  for (const f of dvs.files) {
+    assert.ok(f.path.startsWith('mods/') && f.path.endsWith('.jar'), f.path);
+    assert.match(f.sha1, /^[0-9a-f]{40}$/);
+    assert.ok(f.url.startsWith('https://cdn.modrinth.com/'), f.url);
+  }
+  assert.ok(dvs.files.some(f => f.path.includes('create-1.20.1')));
+  assert.deepStrictEqual(core.resolveProfile(cfg, 'smp', '26.2').files, undefined);
   assert.deepStrictEqual(dvs.servers, [{ name: 'Demir ve Siper', ip: 'demirvesiper.exaroton.me' }]);
   // Adres boş bırakılırsa: listeye bir şey eklenmez, otomatik bağlanılmaz
   const noAddr = { ...cfg, profiles: cfg.profiles.map(p => p.id === 'dvs' ? { ...p, serverAddress: '' } : p) };

@@ -122,32 +122,120 @@
       "loader": "forge",
       "minecraft": "1.20.1",
       "java": 17,
-      "forgeVersion": "recommended",
+      "forgeVersion": "47.4.29",
       "gameDirName": "game-dvs",
       "defaultRamMb": 8192,
       "serverAddress": "demirvesiper.exaroton.me",
       "manifestUrl": "",
-      "mods": [
+      "mods": [],
+      "files": [
         {
-          "slug": "create"
+          "name": "Create",
+          "path": "mods/create-1.20.1-6.0.8.jar",
+          "url": "https://cdn.modrinth.com/data/LNytGWDc/versions/8amzvn9x/create-1.20.1-6.0.8.jar",
+          "sha1": "b13d912b9247a38d66d11598c121442585a1c1e9"
         },
         {
-          "slug": "tough-as-nails"
+          "name": "Create: The Factory Must Grow",
+          "path": "mods/tfmg-1.0.2f.jar",
+          "url": "https://cdn.modrinth.com/data/USgVjXsk/versions/ZNOx0jhg/tfmg-1.0.2f.jar",
+          "sha1": "48e6b058f0d515cbb0e673d823e6e4042f9b1d37"
         },
         {
-          "slug": "simple-voice-chat"
+          "name": "Create: Steam 'n' Rails",
+          "path": "mods/Steam_Rails-1.7.3+forge-mc1.20.1.jar",
+          "url": "https://cdn.modrinth.com/data/ZzjhlDgM/versions/7Uk6lWkU/Steam_Rails-1.7.3%2Bforge-mc1.20.1.jar",
+          "sha1": "5f904126d942cdbd272a5254ec6145851e5e1e7a"
         },
         {
-          "slug": "timeless-and-classics-zero"
+          "name": "TaCZ",
+          "path": "mods/tacz-forge-1.20.1-1.2.0.jar",
+          "url": "https://cdn.modrinth.com/data/SzzJttH8/versions/QGCbNkTy/tacz-forge-1.20.1-1.2.0.jar",
+          "sha1": "0b91b2d09f724cdf412da93370cd57d311e78e67"
         },
         {
-          "slug": "superb-warfare"
+          "name": "Superb Warfare",
+          "path": "mods/superbwarfare-0.8.9.2-mc1.20.1-65d985a64-all.jar",
+          "url": "https://cdn.modrinth.com/data/Cd3DYqzn/versions/81Iyv9ao/superbwarfare-0.8.9.2-mc1.20.1-65d985a64-all.jar",
+          "sha1": "9e77ea098c2eb752894cd945f37cc7c57bafe766"
         },
         {
-          "slug": "immersive-vehicles"
+          "name": "Kotlin for Forge",
+          "path": "mods/kotlinforforge-4.12.0-all.jar",
+          "url": "https://cdn.modrinth.com/data/ordsPcFz/versions/Zsh14XeQ/kotlinforforge-4.12.0-all.jar",
+          "sha1": "962fdb760409d6d71cbf079235f1ca94e3863a22"
         },
         {
-          "slug": "create-tfmg"
+          "name": "Curios API",
+          "path": "mods/curios-forge-5.14.1+1.20.1.jar",
+          "url": "https://cdn.modrinth.com/data/vvuO3ImH/versions/IPQlZkz1/curios-forge-5.14.1%2B1.20.1.jar",
+          "sha1": "452175b95ad3db6ff58bb8968f6bf7a9d1e0f480"
+        },
+        {
+          "name": "GeckoLib",
+          "path": "mods/geckolib-forge-1.20.1-4.8.4.jar",
+          "url": "https://cdn.modrinth.com/data/8BmcQJ2H/versions/aC5KMoNg/geckolib-forge-1.20.1-4.8.4.jar",
+          "sha1": "50e1407869ef0e909e3bdda9328b8bd7db03fdc0"
+        },
+        {
+          "name": "Immersive Vehicles",
+          "path": "mods/Immersive Vehicles-1.20.1-24.0.0.jar",
+          "url": "https://cdn.modrinth.com/data/BCzBuhJ5/versions/xBHmZvmC/Immersive%20Vehicles-1.20.1-24.0.0.jar",
+          "sha1": "efe6962bf0304eb7ac234daa75551bf8e30ef3b7"
+        },
+        {
+          "name": "IAV Parts Pack",
+          "path": "mods/IAV-1.1.11-1.20.1.jar",
+          "url": "https://cdn.modrinth.com/data/x99uA7Bu/versions/OqHpsCYj/IAV-1.1.11-1.20.1.jar",
+          "sha1": "6ef6736f7a0fec392b9e3ee2e2c791b00f4658ca"
+        },
+        {
+          "name": "VEB (askeri araçlar)",
+          "path": "mods/VEB-1.1.11-1.20.1.jar",
+          "url": "https://cdn.modrinth.com/data/BPmM9RTx/versions/lUAacLNx/VEB-1.1.11-1.20.1.jar",
+          "sha1": "8aff624cfc720bd3b0f6487f61eeb937a330133b"
+        },
+        {
+          "name": "Tough As Nails",
+          "path": "mods/ToughAsNails-forge-1.20.1-9.2.0.171.jar",
+          "url": "https://cdn.modrinth.com/data/ge1sOdFH/versions/kWVOI0iS/ToughAsNails-forge-1.20.1-9.2.0.171.jar",
+          "sha1": "2aa5d544d8bdfebd4f258899b008f8e7e252167a"
+        },
+        {
+          "name": "GlitchCore",
+          "path": "mods/GlitchCore-forge-1.20.1-0.0.1.1.jar",
+          "url": "https://cdn.modrinth.com/data/s3dmwKy5/versions/pYPZ5MNI/GlitchCore-forge-1.20.1-0.0.1.1.jar",
+          "sha1": "bba0b08fe76b28b35243fee53f99d54a18153b53"
+        },
+        {
+          "name": "FirstAid",
+          "path": "mods/firstaid-1.20.1-1.1.jar",
+          "url": "https://cdn.modrinth.com/data/eTiYU57B/versions/JzYydXeE/firstaid-1.20.1-1.1.jar",
+          "sha1": "afebe3773bd8b3f902ef54c3c98864bfb0d1e00e"
+        },
+        {
+          "name": "Simple Voice Chat",
+          "path": "mods/voicechat-forge-1.20.1-2.6.27.jar",
+          "url": "https://cdn.modrinth.com/data/9eGKb6K1/versions/IZvGk7Np/voicechat-forge-1.20.1-2.6.27.jar",
+          "sha1": "08f976516021a38a95cf121bf9ff439af386e385"
+        },
+        {
+          "name": "Simple Radio",
+          "path": "mods/simpleradio-forge-1.20.1-4.6.7.10.jar",
+          "url": "https://cdn.modrinth.com/data/S7b8mMXS/versions/W6fIbMUs/simpleradio-forge-1.20.1-4.6.7.10.jar",
+          "sha1": "7dcf6ab62e5a824141024d044b05a8062b71b70a"
+        },
+        {
+          "name": "Lexiconfig",
+          "path": "mods/lexiconfig-forge-1.4.22-epic.jar",
+          "url": "https://cdn.modrinth.com/data/D157Rgyf/versions/mU0i9lAy/lexiconfig-forge-1.4.22-epic.jar",
+          "sha1": "d4f37b22af12aaaf8f9ca857e545b6b5058816da"
+        },
+        {
+          "name": "Cloth Config",
+          "path": "mods/cloth-config-11.1.136-forge.jar",
+          "url": "https://cdn.modrinth.com/data/9s6osm5g/versions/t8TXrZvZ/cloth-config-11.1.136-forge.jar",
+          "sha1": "c65d07748acc57ceb45d53b3964368b84f34d54f"
         }
       ]
     }

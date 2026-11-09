@@ -103,14 +103,14 @@ ipcMain.handle('play', async (_e, { nick, ramMb, closeOnStart, mcVersion, profil
     }
     const base = ver.loader === 'fabric'
       ? { ...config }
-      : { serverAddress: ver.serverAddress, servers: ver.servers, jvmArgs: config.jvmArgs, quickPlay: ver.quickPlay };
+      : { serverAddress: ver.serverAddress, servers: ver.servers, jvmArgs: config.jvmArgs, quickPlay: ver.quickPlay, files: ver.files };
     manifest = { ...base, ...manifest, minecraft: ver.minecraft, javaMajor: ver.javaMajor, mods: ver.mods };
     if (manifest.files && manifest.files.length) {
       log('Dosyalar kontrol ediliyor...');
       await core.syncFiles(gameDir, manifest, log);
     }
 
-    log('Modlar güncelleniyor (Modrinth)...');
+    if ((manifest.mods || []).length) log('Modlar güncelleniyor (Modrinth)...');
     await core.syncModrinth(gameDir, manifest.mods || [], manifest.minecraft, path.join(__dirname, 'bundled-mods'), log, ver.loader);
     if (ver.installPack) {
       try { core.installPack(gameDir, path.join(__dirname, 'bundled-pack', 'koninski-pack.zip')); } catch (e) { console.log('[pack]', e.message); }

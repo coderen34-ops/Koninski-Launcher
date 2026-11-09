@@ -325,6 +325,8 @@ function resolveProfile(config, profileId, mcVersion) {
     javaMajor: p.java || p.javaMajor || 17,
     gameDirName: p.gameDirName || 'game-' + p.id,
     mods: (p.mods || []).map(m => ({ ...m })),
+    // Sunucudaki modlarla birebir aynı sürümler: sabit URL + SHA1 (Modrinth CDN). Sürüm kayması olmaz.
+    files: (p.files || []).map(f => ({ path: f.path, url: f.url, sha1: f.sha1 })),
     forgeVersion: p.forgeVersion || 'recommended',
     fabricLoader: p.fabricLoader || 'latest',
     serverAddress,
