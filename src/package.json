@@ -1,7 +1,7 @@
 {
   "name": "koninski-launcher",
   "productName": "Koninski Launcher",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Koninski SMP özel launcher",
   "main": "bootstrap.js",
   "scripts": {
