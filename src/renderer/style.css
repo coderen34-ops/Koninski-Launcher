@@ -76,3 +76,8 @@ body[data-profile="dvs"] #nick:focus, body[data-profile="dvs"] select:focus { bo
 /* Profil sekmesi eklendi: sabit 640px pencereye sığsın diye üst boşluk biraz azaltıldı */
 .card { padding-top: 26px; }
 body { overflow-y: auto; }
+
+/* Demir ve Siper amblemi logonun yerini alır */
+body[data-profile="dvs"] .logo { background: none; padding: 0; overflow: visible; }
+body[data-profile="dvs"] .logo svg { display: block; width: 48px; height: 48px; }
+body[data-profile="dvs"] .sub { font-style: italic; color: #c9b88a; }

@@ -36,10 +36,13 @@ const cfg = require('../config.json');
   // Sunucudaki modlar sabit dosya listesi olarak gelir: hepsi mods/ altında, SHA1'li, Modrinth CDN'den
   assert.ok(dvs.files.length >= 18);
   for (const f of dvs.files) {
-    assert.ok(f.path.startsWith('mods/') && f.path.endsWith('.jar'), f.path);
-    assert.match(f.sha1, /^[0-9a-f]{40}$/);
-    assert.ok(f.url.startsWith('https://cdn.modrinth.com/'), f.url);
+    const isMod = f.path.startsWith('mods/');
+    assert.ok(isMod ? f.path.endsWith('.jar') : /^(shaderpacks|config)\//.test(f.path), f.path);
+    if (isMod) assert.match(f.sha1, /^[0-9a-f]{40}$/); // modlar hep hash'li; ayar dosyası hash'siz (oyuncu ayarını ezmez)
+    assert.ok(f.url.startsWith('https://cdn.modrinth.com/') || f.url.startsWith('https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/dvs/'), f.url);
   }
+  assert.ok(!dvs.files.find(f => f.path === 'config/oculus.properties').sha1, 'shader ayarı yalnızca ilk kurulumda yazılır');
+  assert.ok(dvs.files.some(f => f.path.includes('koninski_dvs-')), 'çekirdek mod');
   assert.ok(dvs.files.some(f => f.path.includes('create-1.20.1')));
   assert.deepStrictEqual(core.resolveProfile(cfg, 'smp', '26.2').files, undefined);
   assert.deepStrictEqual(dvs.servers, [{ name: 'Demir ve Siper', ip: 'demirvesiper.exaroton.me' }]);

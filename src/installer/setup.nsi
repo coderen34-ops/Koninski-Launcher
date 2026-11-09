@@ -2,7 +2,7 @@ Unicode true
 !include "MUI2.nsh"
 
 !define APP "Koninski Launcher"
-!define VER "1.1.6"
+!define VER "1.1.7"
 !define REG "Software\Microsoft\Windows\CurrentVersion\Uninstall\KoninskiLauncher"
 
 Name "${APP}"

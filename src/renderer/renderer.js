@@ -3,6 +3,26 @@ const nick = $('nick'), ram = $('ram'), play = $('play'), statusEl = $('status')
 const mcSel = $('mcVersion');
 const barWrap = $('barWrap'), bar = $('bar');
 let profiles = [], current = null;
+
+// Demir ve Siper amblemi: meşe yaprağı çelengi içinde çapraz tüfekler, siper süngüsü ve yıldız (haki/pas tonları).
+const DVS_EMBLEM = `<svg viewBox="0 0 48 48" width="48" height="48" aria-label="Demir ve Siper amblemi">
+  <circle cx="24" cy="24" r="23" fill="#2a2617" stroke="#b39b5b" stroke-width="2"/>
+  <circle cx="24" cy="24" r="18.5" fill="none" stroke="#6f6238" stroke-width="1"/>
+  <g stroke="#c9b06a" stroke-width="2.4" stroke-linecap="round">
+    <line x1="12" y1="36" x2="34" y2="12"/>
+    <line x1="36" y1="36" x2="14" y2="12"/>
+  </g>
+  <g fill="#8e3b25">
+    <rect x="10" y="33" width="6" height="4" rx="1" transform="rotate(-47 13 35)"/>
+    <rect x="32" y="33" width="6" height="4" rx="1" transform="rotate(47 35 35)"/>
+  </g>
+  <polygon points="24,14 26.3,20.6 33.3,20.7 27.7,24.9 29.8,31.6 24,27.6 18.2,31.6 20.3,24.9 14.7,20.7 21.7,20.6" fill="#e9dfc4" stroke="#2a2617" stroke-width="0.8"/>
+  <path d="M13 39 Q24 45 35 39" fill="none" stroke="#7f8a3c" stroke-width="1.6" stroke-linecap="round"/>
+  <g fill="#7f8a3c">
+    <ellipse cx="16" cy="40.6" rx="1.3" ry="2.2" transform="rotate(-60 16 40.6)"/><ellipse cx="20" cy="42" rx="1.3" ry="2.2" transform="rotate(-75 20 42)"/>
+    <ellipse cx="32" cy="40.6" rx="1.3" ry="2.2" transform="rotate(60 32 40.6)"/><ellipse cx="28" cy="42" rx="1.3" ry="2.2" transform="rotate(75 28 42)"/>
+  </g>
+</svg>`;
 const ramByProfile = {};
 
 // Profil (sunucu) seçimi: başlık, sürüm alanı ve RAM o profile göre değişir.
@@ -17,7 +37,9 @@ function selectProfile(id) {
   }
   $('serverName').textContent = current.name;
   $('subtitle').textContent = current.subtitle || '';
-  $('logo').textContent = (current.name || 'K').trim().charAt(0).toUpperCase();
+  const logo = $('logo');
+  if (current.id === 'dvs') logo.innerHTML = DVS_EMBLEM;
+  else logo.textContent = (current.name || 'K').trim().charAt(0).toUpperCase();
   $('versionRow').hidden = !!current.versionLocked;
   const info = $('profileInfo');
   if (current.versionLocked) {

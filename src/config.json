@@ -118,7 +118,7 @@
     {
       "id": "dvs",
       "name": "Demir ve Siper",
-      "subtitle": "HOI4 x Arma milsim · Forge 1.20.1",
+      "subtitle": "“Yurtta sulh, cihanda sulh.” — Mustafa Kemal Atatürk",
       "loader": "forge",
       "minecraft": "1.20.1",
       "java": 17,
@@ -236,6 +236,113 @@
           "path": "mods/cloth-config-11.1.136-forge.jar",
           "url": "https://cdn.modrinth.com/data/9s6osm5g/versions/t8TXrZvZ/cloth-config-11.1.136-forge.jar",
           "sha1": "c65d07748acc57ceb45d53b3964368b84f34d54f"
+        },
+        {
+          "name": "Patchouli",
+          "path": "mods/Patchouli-1.20.1-85-FORGE.jar",
+          "url": "https://cdn.modrinth.com/data/nU0bVIaL/versions/94dtOLgZ/Patchouli-1.20.1-85-FORGE.jar",
+          "sha1": "d4614507d6e4c7cb464bba5eca891978272062ef"
+        },
+        {
+          "name": "Corpse",
+          "path": "mods/corpse-forge-1.20.1-1.0.23.jar",
+          "url": "https://cdn.modrinth.com/data/WrpuIfhw/versions/7fc0hJN6/corpse-forge-1.20.1-1.0.23.jar",
+          "sha1": "78a776f057588a84a86c57dbe376b9b26f69f2c4"
+        },
+        {
+          "name": "ModernFix",
+          "path": "mods/modernfix-forge-5.27.91+mc1.20.1.jar",
+          "url": "https://cdn.modrinth.com/data/nmDcB62a/versions/OM5gX4LT/modernfix-forge-5.27.91%2Bmc1.20.1.jar",
+          "sha1": "195d53d299a93c418c90b672c2640b4e41623f96"
+        },
+        {
+          "name": "FerriteCore",
+          "path": "mods/ferritecore-6.0.1-forge.jar",
+          "url": "https://cdn.modrinth.com/data/uXXizFIs/versions/DG5Fn9Sz/ferritecore-6.0.1-forge.jar",
+          "sha1": "417fb6ce8f52abf40bd9d0390371790f9576f8ba"
+        },
+        {
+          "name": "Embeddium (Sodium)",
+          "path": "mods/embeddium-0.3.31+mc1.20.1.jar",
+          "url": "https://cdn.modrinth.com/data/sk9rgfiA/versions/UTbfe5d1/embeddium-0.3.31%2Bmc1.20.1.jar",
+          "sha1": "bb2fa8f3e493af16af9160d049f96c614a1faf2f"
+        },
+        {
+          "name": "Oculus (Iris)",
+          "path": "mods/oculus-mc1.20.1-1.8.0.jar",
+          "url": "https://cdn.modrinth.com/data/GchcoXML/versions/iQ1SwGc3/oculus-mc1.20.1-1.8.0.jar",
+          "sha1": "984f774e71790deaec674c7587bd24e0711871b2"
+        },
+        {
+          "name": "ImmediatelyFast",
+          "path": "mods/ImmediatelyFast-Forge-1.5.5+1.20.4.jar",
+          "url": "https://cdn.modrinth.com/data/5ZwdcRci/versions/rvsLEEZU/ImmediatelyFast-Forge-1.5.5%2B1.20.4.jar",
+          "sha1": "9eacd407b7dea636d375dc47335d92f616484ea2"
+        },
+        {
+          "name": "EntityCulling",
+          "path": "mods/entityculling-forge-1.11.3-mc1.20.1.jar",
+          "url": "https://cdn.modrinth.com/data/NNAgCjsB/versions/HUUJcFnt/entityculling-forge-1.11.3-mc1.20.1.jar",
+          "sha1": "d3c513e88ef9f5cdd7e27d17d923d4dca69c6d55"
+        },
+        {
+          "name": "Dynamic FPS",
+          "path": "mods/dynamic-fps-3.11.4+minecraft-1.20.0-forge.jar",
+          "url": "https://cdn.modrinth.com/data/LQ3K71Q1/versions/EjdIWWqG/dynamic-fps-3.11.4%2Bminecraft-1.20.0-forge.jar",
+          "sha1": "43b3e0766a9e7a30651cc01756476657b865b7a2"
+        },
+        {
+          "name": "FPS Reducer",
+          "path": "mods/FpsReducer2-forge-1.20.1-2.5.1.jar",
+          "url": "https://cdn.modrinth.com/data/iZ10HXDj/versions/UfMtCXs7/FpsReducer2-forge-1.20.1-2.5.1.jar",
+          "sha1": "4920a2e1d17090007179a568181624847fba0993"
+        },
+        {
+          "name": "ItemPhysic Lite",
+          "path": "mods/ItemPhysicLite_FORGE_v1.6.13_mc1.20.1.jar",
+          "url": "https://cdn.modrinth.com/data/OuyCgP8t/versions/frnHNN8n/ItemPhysicLite_FORGE_v1.6.13_mc1.20.1.jar",
+          "sha1": "cd2e5d5f7406dc4a6bfa28873308a9f9d6a7e5a1"
+        },
+        {
+          "name": "CreativeCore",
+          "path": "mods/CreativeCore_FORGE_v2.12.40_mc1.20.1.jar",
+          "url": "https://cdn.modrinth.com/data/OsZiaDHq/versions/ChKayKur/CreativeCore_FORGE_v2.12.40_mc1.20.1.jar",
+          "sha1": "f8b65310e0183630dd00c1ade12f9b6ecd243287"
+        },
+        {
+          "name": "First-person Model",
+          "path": "mods/firstperson-forge-2.7.3-mc1.20.1.jar",
+          "url": "https://cdn.modrinth.com/data/H5XMjpHi/versions/kxFDUOmS/firstperson-forge-2.7.3-mc1.20.1.jar",
+          "sha1": "229a85332b026a027e960919a263742f1eafbbc2"
+        },
+        {
+          "name": "Not Enough Animations",
+          "path": "mods/notenoughanimations-forge-1.12.7-mc1.20.1.jar",
+          "url": "https://cdn.modrinth.com/data/MPCX6s5C/versions/3YRHi2mE/notenoughanimations-forge-1.12.7-mc1.20.1.jar",
+          "sha1": "94b051bda7fd0e7f8e8b119db779d3a9c8730f80"
+        },
+        {
+          "name": "Demir ve Siper (çekirdek mod)",
+          "path": "mods/koninski_dvs-0.2.0.jar",
+          "url": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/dvs/mods/koninski_dvs-0.2.0.jar",
+          "sha1": "0d105d88cbc79b73d421530600f794a4e51cdc3f"
+        },
+        {
+          "name": "Koninski Guard (Forge)",
+          "path": "mods/koninski-guard-forge-1.4.1.jar",
+          "url": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/dvs/mods/koninski-guard-forge-1.4.1.jar",
+          "sha1": "e9a51610008dbc7088ba912d4ab03a18a3d1bd1e"
+        },
+        {
+          "name": "Photon shader",
+          "path": "shaderpacks/photon_v1.4.zip",
+          "url": "https://cdn.modrinth.com/data/lLqFfGNs/versions/BnGklH5y/photon_v1.4.zip",
+          "sha1": "96c7730f5891a42e39bbf1f0f5a98fa99628a7fe"
+        },
+        {
+          "name": "Oculus ayarı (Photon seçili, kapalı)",
+          "path": "config/oculus.properties",
+          "url": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/dvs/config/oculus.properties"
         }
       ]
     }
