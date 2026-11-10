@@ -1,8 +1,8 @@
 {
-  "version": "1.1.9",
-  "file": "app-1.1.9.asar",
-  "sha256": "c430876f9cdb60ff109d7d1d3737e9848d9ec61bd07fc6a4764913e44a82f116",
-  "size": 7437402,
-  "sig": "nFZ1HaILzqZzlWJ6RyhzkE43P5840D/GBtFybRDFln2Mk8fSoSb7rwAfzNI8tBsUQelyi/A4c39x9jpIq61sBg==",
-  "date": "2026-11-09T12:03:43.515Z"
+  "version": "1.1.10",
+  "file": "app-1.1.10.asar",
+  "sha256": "5c052c7cfd1312877c1ad39409cd9ff2d18535b72a7c198a115bd63081a67fe0",
+  "size": 7437403,
+  "sig": "d9n1eBRaa5rbP3u4xJdlgJ8YsuzkxqNZxd41m7pLeAOAcvKZPDK74yaTOyHZuqiQhiDS3sMiPgbmXjdSbXkHBw==",
+  "date": "2026-11-10T09:00:33.526Z"
 }
