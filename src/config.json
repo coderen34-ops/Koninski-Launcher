@@ -309,7 +309,6 @@
           "url": "https://cdn.modrinth.com/data/OsZiaDHq/versions/ChKayKur/CreativeCore_FORGE_v2.12.40_mc1.20.1.jar",
           "sha1": "f8b65310e0183630dd00c1ade12f9b6ecd243287"
         },
-        
         {
           "name": "Not Enough Animations",
           "path": "mods/notenoughanimations-forge-1.12.7-mc1.20.1.jar",
@@ -318,9 +317,9 @@
         },
         {
           "name": "Demir ve Siper (çekirdek mod)",
-          "path": "mods/koninski_dvs-0.6.0.jar",
-          "url": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/dvs/mods/koninski_dvs-0.6.0.jar",
-          "sha1": "9c26039b29a6b6bb8306da12d888e82272263060"
+          "path": "mods/koninski_dvs-0.7.0.jar",
+          "url": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/dvs/mods/koninski_dvs-0.7.0.jar",
+          "sha1": "c9545f7df31ba07fd5e19d9400e888206fdb8383"
         },
         {
           "name": "Koninski Guard (Forge)",
@@ -338,6 +337,12 @@
           "name": "Oculus ayarı (Photon seçili, kapalı)",
           "path": "config/oculus.properties",
           "url": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/dvs/config/oculus.properties"
+        },
+        {
+          "name": "EntityCulling ayarı (silah ve araç tezgâhları görünür kalsın)",
+          "path": "config/entityculling.json",
+          "url": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/dvs/config/entityculling.json",
+          "sha1": "0da4ce98f1763f8f8f0550068be904390c5cca61"
         }
       ]
     }

@@ -1,0 +1,52 @@
+{
+  "configVersion": 9,
+  "safeMode": true,
+  "renderNametagsThroughWalls": true,
+  "blockEntityWhitelist": [
+    "betterend:eternal_pedestal",
+    "botania:falling_star",
+    "botania:flame_ring",
+    "botania:magic_missile",
+    "create:hose_pulley",
+    "create:rope_pulley",
+    "minecraft:beacon",
+    "superbwarfare:container",
+    "superbwarfare:small_container",
+    "superbwarfare:vehicle_assembling_table",
+    "tacz:gun_smith_table"
+  ],
+  "entityWhitelist": [
+    "botania:mana_burst",
+    "drg_flares:drg_flares",
+    "quark:soul_bead"
+  ],
+  "tracingDistance": 128,
+  "debugMode": false,
+  "sleepDelay": 10,
+  "hitboxLimit": 50,
+  "captureRate": 5,
+  "tickCulling": true,
+  "tickCullingWhitelist": [
+    "create:carriage_contraption",
+    "create:contraption",
+    "create:gantry_contraption",
+    "create:stationary_contraption",
+    "minecraft:birch_boat",
+    "minecraft:block_display",
+    "minecraft:boat",
+    "minecraft:firework_rocket",
+    "minecraft:item_display",
+    "minecraft:oak_boat",
+    "minecraft:spruce_boat",
+    "minecraft:text_display",
+    "mts:builder_existing",
+    "mts:builder_rendering",
+    "mts:builder_seat"
+  ],
+  "disableF3": false,
+  "skipEntityCulling": false,
+  "skipBlockEntityCulling": false,
+  "blockEntityFrustumCulling": true,
+  "forceDisplayCulling": false,
+  "solidLeaves": false
+}
