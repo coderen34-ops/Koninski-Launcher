@@ -318,9 +318,9 @@
         },
         {
           "name": "Demir ve Siper (çekirdek mod)",
-          "path": "mods/koninski_dvs-0.5.1.jar",
-          "url": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/dvs/mods/koninski_dvs-0.5.1.jar",
-          "sha1": "a7e3b73d3bc07cd7deb95283b36b854791448029"
+          "path": "mods/koninski_dvs-0.6.0.jar",
+          "url": "https://raw.githubusercontent.com/coderen34-ops/Koninski-Launcher/main/dvs/mods/koninski_dvs-0.6.0.jar",
+          "sha1": "9c26039b29a6b6bb8306da12d888e82272263060"
         },
         {
           "name": "Koninski Guard (Forge)",
